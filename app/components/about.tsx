@@ -1,66 +1,36 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { usePortfolioStore } from '../../store/portofolio';
+import { profile } from '@/lib/portofolio';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function About() {
-  const { profile } = usePortfolioStore();
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
   const cardRef = useRef(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const context = gsap.context(() => {
-      gsap.fromTo(headingRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          }
-        }
-      );
-
-      const paragraphs = textRef.current?.querySelectorAll('p');
-      
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: cardRef.current,
-          start: 'top 80%',
-        }
-      });
-
-      tl.fromTo(cardRef.current,
-        { opacity: 0, scale: 0.95 },
-        { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out' }
-      );
-
-      if (paragraphs) {
-        tl.fromTo(paragraphs,
-          { opacity: 0, y: 20 },
-          { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.5, 
-            stagger: 0.15, 
-            ease: 'power1.out' 
-          },
-          "-=0.4"
-        );
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setVisible(true);
+        observer.disconnect();
       }
-    }, sectionRef);
+    },
+    { threshold: 0.2 }
+  );
 
-    return () => context.revert();
-  }, []);
+  if (cardRef.current) {
+    observer.observe(cardRef.current);
+  }
+
+  return () => observer.disconnect();
+}, []); 
 
   const paragraphs = profile.aboutMe.split('\n\n');
 
@@ -79,8 +49,10 @@ export default function About() {
             About Me
           </h2>
           <div 
-            ref={cardRef} 
-            className="glass-card p-8 md:p-12 opacity-0 shadow-2xl"
+            ref={cardRef}
+            className={`glass-card p-8 md:p-12 shadow-2xl transition-all duration-700 ease-out
+              ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}
+            `}
           >
             <div 
               ref={textRef} 
@@ -88,8 +60,12 @@ export default function About() {
             >
               {paragraphs.map((paragraph, index) => (
                 <p 
-                  key={index} 
-                  className="text-muted-foreground leading-relaxed mb-6 last:mb-0 opacity-0"
+                  key={index}
+                  className={`text-muted-foreground leading-relaxed mb-6 last:mb-0
+                    transition-all duration-500 ease-out
+                    ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}
+                  `}
+                  style={{ transitionDelay: `${index * 150}ms` }}
                 >
                   {paragraph}
                 </p>

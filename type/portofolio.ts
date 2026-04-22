@@ -15,7 +15,6 @@ export const ProfileSchema = z.object({
   aboutMe: z.string(),
   email: z.string().min(1),
   resumeUrl: z.string().nullable().optional(),
-  socialLinks: z.array(SocialLinkSchema),
 });
 
 export const MenuSchema = z.object({
@@ -43,6 +42,7 @@ export const SkillSchema = z.object({
   id: z.cuid2(),
   name: z.string().min(1),
   icon: z.string(),
+  level: z.string(),
   category: z.string(),
   order: z.number().default(0),
 });

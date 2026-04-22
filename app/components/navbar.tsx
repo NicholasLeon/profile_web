@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import gsap from 'gsap';
-import { usePortfolioStore } from '../../store/portofolio';
+import { menus } from '@/lib/portofolio';
+import { usePortfolioStore } from '@/store/portofolio';
 import Image from 'next/image';
 
 export default function Navbar() {
@@ -11,7 +12,7 @@ export default function Navbar() {
   const headerRef = useRef(null);
   const mobileMenuRef = useRef(null);
   
-  const { menus, activeSection, setActiveSection } = usePortfolioStore();
+  const { activeSection, setActiveSection } = usePortfolioStore();
 
   useEffect(() => {
     gsap.fromTo(headerRef.current, 

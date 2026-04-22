@@ -3,11 +3,9 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ArrowDown, Sparkles } from 'lucide-react';
-import { usePortfolioStore } from '../../store/portofolio';
+import { profile } from '@/lib/portofolio';
 
 export default function Hero() {
-  const { profile } = usePortfolioStore();
-  
   const containerRef = useRef(null);
   const badgeRef = useRef(null);
   const titleRef = useRef(null);
@@ -69,15 +67,13 @@ export default function Hero() {
       ref={containerRef}
       className="min-h-screen flex items-center justify-center relative bg-background"
     >
-      {/* Background Glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-primary/5 rounded-full blur-[100px]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-75 md:w-150 h-75 md:h-150 bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-50 md:w-100 h-50 md:h-100 bg-primary/5 rounded-full blur-[100px]" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10 text-center">
         <div className="max-w-4xl mx-auto">
-          {/* Badge */}
           <div className="flex justify-center opacity-0" ref={badgeRef}>
             <div className="inline-flex items-center gap-2 px-4 py-2 glass-card mb-8 text-sm text-muted-foreground">
               <Sparkles size={14} className="text-primary" />
@@ -98,8 +94,6 @@ export default function Hero() {
           >
             {profile.bio}
           </p>
-
-          {/* Buttons Group - Diperbaiki di sini */}
           <div 
             ref={actionsRef}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 px-4"

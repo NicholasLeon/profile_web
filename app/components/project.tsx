@@ -5,11 +5,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ExternalLink, Github } from 'lucide-react';
 import { usePortfolioStore } from '../../store/portofolio';
+import { projects } from '@/lib/portofolio';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ProjectsSection() {
-  const { projects } = usePortfolioStore();
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -80,7 +80,7 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                <div className="p-6 flex-grow flex flex-col">
+                <div className="p-6 grow flex flex-col">
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
                       {project.title}
@@ -115,7 +115,7 @@ export default function ProjectsSection() {
             ))}
           </div>
           
-        </div> {/* END OF max-w-4xl */}
+        </div>
       </div>
     </section>
   );
